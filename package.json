@@ -10,7 +10,8 @@
     "docker:down": "docker compose down",
     "docker:db": "docker compose up db -d",
     "prisma:migrate": "npm run prisma:migrate --prefix backend",
-    "prisma:studio": "npm run prisma:studio --prefix backend"
+    "prisma:studio": "npm run prisma:studio --prefix backend",
+    "prisma:seed": "npm run prisma:seed --prefix backend"
   },
   "repository": {
     "type": "git",
