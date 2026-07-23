@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// US state (or equivalent top-level region).
+model State {
+  id         String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  name       String   @unique
+  population Int
+  counties   County[]
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("states")
+}
+
+/// County belonging to a state. Names are unique within a state.
+model County {
+  id         String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  name       String
+  population Int
+  stateId    String   @map("state_id") @db.Uuid
+  state      State    @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@unique([stateId, name])
+  @@index([stateId])
+  @@map("counties")
+}

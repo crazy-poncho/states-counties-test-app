@@ -1,0 +1,24 @@
+{
+  "name": "states-countries-test-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack states and counties application",
+  "scripts": {
+    "dev:backend": "npm run dev --prefix backend",
+    "build:backend": "npm run build --prefix backend",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down",
+    "docker:db": "docker compose up db -d",
+    "prisma:migrate": "npm run prisma:migrate --prefix backend",
+    "prisma:studio": "npm run prisma:studio --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crazy-poncho/states-countries-test-app.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/crazy-poncho/states-countries-test-app/issues"
+  },
+  "homepage": "https://github.com/crazy-poncho/states-countries-test-app#readme"
+}

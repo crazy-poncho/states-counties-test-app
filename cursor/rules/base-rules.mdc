@@ -1,0 +1,20 @@
+---
+description: Core coding standards for this project
+alwaysApply: true
+---
+
+# Cursor Base Rules
+
+- Do not over-engineer; prefer simplicity.
+- Match existing coding style and patterns.
+- Run and pass tests after functionality changes, and ensure there are no linter errors.
+- Suggest best-practice solutions, not just first ideas.
+- Keep code DRY and follow KISS principles.
+- Follow `AGENTS.md` for project-wide conventions (especially identifiers).
+
+## Identifiers
+
+- Use PostgreSQL-native **UUIDv7** for all entity primary/foreign keys.
+- Prisma: `String @id @default(dbgenerated("uuidv7()")) @db.Uuid`
+- Requires PostgreSQL 18+ (`uuidv7()`).
+- Do not introduce `SERIAL` / autoincrement integer IDs for new tables.
