@@ -1,8 +1,12 @@
 import { access, readFile } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const defaultDataDir = path.join(__dirname, "data");
 
 type StateSeed = {
   state: string;
@@ -15,28 +19,11 @@ type CountySeed = {
   population: number;
 };
 
-function printUsage(): void {
-  console.error(`Usage: npm run prisma:seed -- <data-dir>
-
-<data-dir> layout:
-  <data-dir>/usa-states/USA-states.json
-  <data-dir>/states/<StateName>.json
-
-Example:
-  npm run prisma:seed -- "$HOME/Downloads/states assginemnt"`);
-}
-
 function resolveDataDir(argv: string[]): string {
   // Skip node and script path; support `tsx seed.ts -- <dir>` and bare `<dir>`.
   const args = argv.slice(2).filter((arg) => arg !== "--");
-  const dataDir = args[0];
-
-  if (!dataDir) {
-    printUsage();
-    throw new Error("Missing required <data-dir> argument");
-  }
-
-  return path.resolve(dataDir);
+  const override = args[0];
+  return path.resolve(override ?? defaultDataDir);
 }
 
 async function assertExists(filePath: string, label: string): Promise<void> {
@@ -53,7 +40,7 @@ async function readJson<T>(filePath: string): Promise<T> {
 }
 
 async function seed(dataDir: string): Promise<void> {
-  const statesPath = path.join(dataDir, "usa-states", "USA-states.json");
+  const statesPath = path.join(dataDir, "USA-states.json");
   const countiesDir = path.join(dataDir, "states");
 
   await assertExists(statesPath, "States file");

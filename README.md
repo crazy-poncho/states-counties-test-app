@@ -17,6 +17,8 @@ See `AGENTS.md` for project-wide conventions (including UUIDv7 IDs).
 ├── backend/                 # Express API + Prisma
 │   ├── prisma/
 │   │   ├── schema.prisma
+│   │   ├── seed.ts
+│   │   ├── data/            # USA-states.json + states/*.json
 │   │   └── migrations/      # Versioned DB schema changes
 │   └── src/
 ├── docker-compose.yml       # Postgres + backend
@@ -31,7 +33,7 @@ See `AGENTS.md` for project-wide conventions (including UUIDv7 IDs).
 - County names are unique within a state
 - Deleting a state cascades to its counties
 - County count in API responses is derived from related records
-- Seed from external JSON (not committed): `usa-states/USA-states.json` + `states/<State>.json`
+- Seed data lives in `backend/prisma/data/` (`USA-states.json` + `states/<State>.json`)
 
 ## API
 
@@ -94,22 +96,20 @@ cd backend && npm install && npx prisma generate
 # Apply migrations
 npx prisma migrate deploy
 
-# Seed states + counties from an external data directory
-npm run prisma:seed -- "$HOME/Downloads/states assginemnt"
+# Seed states + counties from backend/prisma/data/
+npm run prisma:seed
 
 # Dev server (hot reload)
 npm run dev
 ```
 
-Expected data layout:
+Optional: pass another data directory with the same layout (`USA-states.json` + `states/`):
 
-```
-<data-dir>/
-├── usa-states/USA-states.json
-└── states/<StateName>.json
+```bash
+npm run prisma:seed -- /path/to/data
 ```
 
-From the repo root: `npm run prisma:seed -- "$HOME/Downloads/states assginemnt"`.
+From the repo root: `npm run prisma:seed`.
 
 ## Schema changes
 
