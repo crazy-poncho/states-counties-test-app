@@ -1,5 +1,5 @@
 {
-  "name": "states-countries-test-app",
+  "name": "states-counties-test-app",
   "version": "1.0.0",
   "private": true,
   "description": "Full-stack states and counties application",
@@ -17,11 +17,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crazy-poncho/states-countries-test-app.git"
+    "url": "git+https://github.com/crazy-poncho/states-counties-test-app.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/crazy-poncho/states-countries-test-app/issues"
+    "url": "https://github.com/crazy-poncho/states-counties-test-app/issues"
   },
-  "homepage": "https://github.com/crazy-poncho/states-countries-test-app#readme"
+  "homepage": "https://github.com/crazy-poncho/states-counties-test-app#readme"
 }
