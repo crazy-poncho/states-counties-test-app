@@ -1,9 +1,10 @@
 # States & Counties App
 
-Full-stack app for browsing US states and their counties. Backend is ready; frontend can be added later under `frontend/`.
+Full-stack app for browsing US states and their counties.
 
 ## Stack
 
+- **Frontend:** React, TypeScript, Vite, TanStack Query, MUI (Nginx in Docker)
 - **Backend:** Node.js, Express, TypeScript, Prisma
 - **Database:** PostgreSQL 18+ (native `uuidv7()` primary keys)
 - **Runtime:** Docker Compose
@@ -21,8 +22,11 @@ See `AGENTS.md` for project-wide conventions (including UUIDv7 IDs).
 │   │   ├── data/            # USA-states.json + states/*.json
 │   │   └── migrations/      # Versioned DB schema changes
 │   └── src/
-├── docker-compose.yml       # Postgres + backend
-└── frontend/                # (planned)
+├── frontend/                # React + Vite SPA
+│   ├── src/
+│   ├── nginx.conf           # Serves SPA + proxies API to backend
+│   └── Dockerfile
+└── docker-compose.yml       # Postgres + backend + frontend
 ```
 
 ## Data model
@@ -75,7 +79,10 @@ cp .env.example .env
 docker compose up --build
 ```
 
-API: http://localhost:3000
+- App (Nginx): http://localhost:8080
+- API: http://localhost:3000
+
+In Docker, Nginx serves the SPA and proxies `/health`, `/states`, and `/state/*` to the backend.
 
 Migrations run automatically on backend startup (`prisma migrate deploy`).
 
@@ -99,8 +106,12 @@ npx prisma migrate deploy
 # Seed states + counties from backend/prisma/data/
 npm run prisma:seed
 
-# Dev server (hot reload)
-npm run dev
+# Backend (hot reload) — from repo root
+npm run dev:backend
+
+# Frontend (Vite) — from repo root; proxies API to :3000
+cd frontend && npm install
+npm run dev:frontend
 ```
 
 Optional: pass another data directory with the same layout (`USA-states.json` + `states/`):

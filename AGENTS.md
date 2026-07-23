@@ -40,5 +40,6 @@ parentId String @map("parent_id") @db.Uuid
 ## Stack notes
 
 - Backend: Node.js, Express, TypeScript, Prisma, PostgreSQL
+- Frontend: React, TypeScript, Vite, TanStack Query, MUI; production image served by Nginx
 - Run via Docker Compose when possible
 - Schema changes go through Prisma migrations (`prisma migrate dev`)
