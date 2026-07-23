@@ -19,11 +19,21 @@ type CountySeed = {
   population: number;
 };
 
-function resolveDataDir(argv: string[]): string {
-  // Skip node and script path; support `tsx seed.ts -- <dir>` and bare `<dir>`.
+type SeedOptions = {
+  dataDir: string;
+  /** When true, wipe and re-import even if states already exist. */
+  force: boolean;
+};
+
+function resolveOptions(argv: string[]): SeedOptions {
+  // Skip node and script path; support `tsx seed.ts -- <dir>`, `--force`, and bare `<dir>`.
   const args = argv.slice(2).filter((arg) => arg !== "--");
-  const override = args[0];
-  return path.resolve(override ?? defaultDataDir);
+  const force = args.includes("--force");
+  const override = args.find((arg) => arg !== "--force");
+  return {
+    dataDir: path.resolve(override ?? defaultDataDir),
+    force,
+  };
 }
 
 async function assertExists(filePath: string, label: string): Promise<void> {
@@ -39,12 +49,18 @@ async function readJson<T>(filePath: string): Promise<T> {
   return JSON.parse(raw) as T;
 }
 
-async function seed(dataDir: string): Promise<void> {
+async function seed({ dataDir, force }: SeedOptions): Promise<void> {
   const statesPath = path.join(dataDir, "USA-states.json");
   const countiesDir = path.join(dataDir, "states");
 
   await assertExists(statesPath, "States file");
   await assertExists(countiesDir, "Counties directory");
+
+  const existingCount = await prisma.state.count();
+  if (existingCount > 0 && !force) {
+    console.log(`Skipping seed: ${existingCount} states already present (pass --force to re-import).`);
+    return;
+  }
 
   const states = await readJson<StateSeed[]>(statesPath);
 
@@ -87,8 +103,7 @@ async function seed(dataDir: string): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  const dataDir = resolveDataDir(process.argv);
-  await seed(dataDir);
+  await seed(resolveOptions(process.argv));
 }
 
 main()

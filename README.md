@@ -86,7 +86,7 @@ docker compose up --build
 
 In Docker, Nginx serves the SPA and proxies `/health`, `/states`, and `/state/*` to the backend.
 
-Migrations run automatically on backend startup (`prisma migrate deploy`).
+On backend startup Docker runs `prisma migrate deploy`, then seeds from `backend/prisma/data/` when the `states` table is empty (skips on later restarts). Force a full re-import with `npm run prisma:seed -- --force` (or recreate the volume).
 
 > If you previously ran an older Postgres image from this compose file, recreate the volume once:
 > `docker compose down -v && docker compose up --build`
@@ -108,24 +108,26 @@ cd backend && npm install && npx prisma generate
 # Apply migrations (reads DATABASE_URL from backend/.env)
 npx prisma migrate deploy
 
-# Seed states + counties from backend/prisma/data/
+# Seed states + counties from backend/prisma/data/ (no-op if already seeded)
 npm run prisma:seed
 
 # Backend (hot reload) — from repo root
 npm run dev:backend
 
 # Frontend (Vite) — from repo root; proxies API to :3000
-cd frontend && npm install
+cd frontend && npm install && cd ..
 npm run dev:frontend
 ```
 
-Optional: pass another data directory with the same layout (`USA-states.json` + `states/`):
+Optional seed flags (from `backend/` or via root `npm run prisma:seed -- …`):
 
 ```bash
+# Another data directory with the same layout (USA-states.json + states/)
 npm run prisma:seed -- /path/to/data
-```
 
-From the repo root: `npm run prisma:seed`.
+# Wipe and re-import even if states already exist
+npm run prisma:seed -- --force
+```
 
 ## Schema changes
 
