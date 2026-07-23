@@ -39,6 +39,7 @@ parentId String @map("parent_id") @db.Uuid
 
 ## Stack notes
 
+- Node.js **22.15.0** everywhere (`.nvmrc`, `engines` in package.json files, Docker `node:22.15.0-alpine` images)
 - Backend: Node.js, Express, TypeScript, Prisma, PostgreSQL
 - Frontend: React, TypeScript, Vite, TanStack Query, MUI; production image served by Nginx
 - Run via Docker Compose when possible

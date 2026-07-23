@@ -5,9 +5,11 @@ Full-stack app for browsing US states and their counties.
 ## Stack
 
 - **Frontend:** React, TypeScript, Vite, TanStack Query, MUI (Nginx in Docker)
-- **Backend:** Node.js, Express, TypeScript, Prisma
+- **Backend:** Node.js 22.15.0, Express, TypeScript, Prisma
 - **Database:** PostgreSQL 18+ (native `uuidv7()` primary keys)
 - **Runtime:** Docker Compose
+
+Use Node **22.15.0** locally (see `.nvmrc`; `nvm use` / `fnm use`).
 
 See `AGENTS.md` for project-wide conventions (including UUIDv7 IDs).
 
