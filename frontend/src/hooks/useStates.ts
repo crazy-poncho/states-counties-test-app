@@ -3,7 +3,7 @@ import { fetchStateDetail, fetchStates } from "../api/client";
 
 export const stateKeys = {
   all: ["states"] as const,
-  detail: (name: string) => ["states", name] as const,
+  detail: (detailUrl: string) => ["states", "detail", detailUrl] as const,
 };
 
 export function useStatesQuery() {
@@ -13,10 +13,10 @@ export function useStatesQuery() {
   });
 }
 
-export function useStateDetailQuery(name: string | null) {
+export function useStateDetailQuery(detailUrl: string | null) {
   return useQuery({
-    queryKey: stateKeys.detail(name ?? ""),
-    queryFn: () => fetchStateDetail(name!),
-    enabled: Boolean(name),
+    queryKey: stateKeys.detail(detailUrl ?? ""),
+    queryFn: () => fetchStateDetail(detailUrl!),
+    enabled: Boolean(detailUrl),
   });
 }

@@ -33,6 +33,13 @@ export function App() {
     return highlightedList.filter((name) => name.toLowerCase().includes(query));
   }, [highlightedList, filterText]);
 
+  const selectedDetailUrl = useMemo(() => {
+    if (!selectedName || !states) {
+      return null;
+    }
+    return states.find((item) => item.state === selectedName)?.detail ?? null;
+  }, [selectedName, states]);
+
   function handleSelect(name: string) {
     setSelectedName(name);
   }
@@ -107,7 +114,7 @@ export function App() {
             </Stack>
           </Box>
 
-          <StateDetailPanel stateName={selectedName} />
+          <StateDetailPanel stateName={selectedName} detailUrl={selectedDetailUrl} />
         </Stack>
       )}
     </Container>

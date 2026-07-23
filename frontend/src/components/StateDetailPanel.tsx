@@ -12,10 +12,12 @@ import { Divider } from "@mui/material";
 
 type StateDetailPanelProps = {
   stateName: string | null;
+  /** `detail` URL from the `/states` list item — used to load this panel. */
+  detailUrl: string | null;
 };
 
-export function StateDetailPanel({ stateName }: StateDetailPanelProps) {
-  const { data, isPending, isError, error, isFetching } = useStateDetailQuery(stateName);
+export function StateDetailPanel({ stateName, detailUrl }: StateDetailPanelProps) {
+  const { data, isPending, isError, error, isFetching } = useStateDetailQuery(detailUrl);
 
   const countyPopulationSum =
     data?.countyList.reduce((sum, county) => sum + county.population, 0) ?? 0;
@@ -48,13 +50,17 @@ export function StateDetailPanel({ stateName }: StateDetailPanelProps) {
           </Typography>
         )}
 
-        {stateName && isPending && (
+        {stateName && !detailUrl && (
+          <Alert severity="error">No detail URL was provided for this state.</Alert>
+        )}
+
+        {detailUrl && isPending && (
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}>
             <CircularProgress size={28} aria-label="Loading state details" />
           </Box>
         )}
 
-        {stateName && isError && (
+        {detailUrl && isError && (
           <Alert severity="error">
             {error instanceof Error ? error.message : "Failed to load state details"}
           </Alert>
