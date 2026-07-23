@@ -1,5 +1,5 @@
-import app from "./app.js";
-import prisma from "./lib/prisma.js";
+import { app } from "./app.js";
+import { prisma } from "./lib/prisma.js";
 
 const port = Number(process.env.PORT ?? 3000);
 

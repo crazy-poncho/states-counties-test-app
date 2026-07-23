@@ -12,6 +12,12 @@ alwaysApply: true
 - Keep code DRY and follow KISS principles.
 - Follow `AGENTS.md` for project-wide conventions (especially identifiers).
 
+## Modules / exports
+
+- Prefer **named exports**. Do not use `export default` in our codebase.
+- Import our modules with named imports: `import { app } from "./app.js"`.
+- Third-party packages may still use their own default exports (e.g. `import express from "express"`).
+
 ## Identifiers
 
 - Use PostgreSQL-native **UUIDv7** for all entity primary/foreign keys.

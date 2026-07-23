@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import statesRouter from "./routes/states.js";
+import { statesRouter } from "./routes/states.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
-const app = express();
+export const app = express();
 
 app.use(helmet());
 app.use(cors());
@@ -16,5 +16,3 @@ app.get("/health", (_req, res) => {
 
 app.use(statesRouter);
 app.use(errorHandler);
-
-export default app;

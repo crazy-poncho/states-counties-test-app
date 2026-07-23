@@ -31,6 +31,12 @@ parentId String @map("parent_id") @db.Uuid
 - Treat IDs as `string` (UUID text form)
 - Never expose or rely on numeric sequential IDs
 
+## Modules / exports
+
+- Prefer **named exports**; do not use `export default` in our code.
+- Example: `export const prisma = new PrismaClient()` / `import { prisma } from "./lib/prisma.js"`
+- Default imports from third-party packages are fine when that is the package’s API.
+
 ## Stack notes
 
 - Backend: Node.js, Express, TypeScript, Prisma, PostgreSQL
