@@ -96,13 +96,16 @@ Migrations run automatically on backend startup (`prisma migrate deploy`).
 ## Local development
 
 ```bash
+# Env for Prisma / backend (DATABASE_URL, etc.)
+cp backend/.env.example backend/.env
+
 # Start Postgres only
 docker compose up db -d
 
 # Backend deps + Prisma client
 cd backend && npm install && npx prisma generate
 
-# Apply migrations
+# Apply migrations (reads DATABASE_URL from backend/.env)
 npx prisma migrate deploy
 
 # Seed states + counties from backend/prisma/data/
