@@ -14,7 +14,7 @@ model State {
   population Int
   counties   County[]
   createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("states")
 }
@@ -27,7 +27,7 @@ model County {
   stateId    String   @map("state_id") @db.Uuid
   state      State    @relation(fields: [stateId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@unique([stateId, name])
   @@index([stateId])

@@ -1,0 +1,4 @@
+-- Add DEFAULT CURRENT_TIMESTAMP to updated_at (matches created_at).
+
+ALTER TABLE "states" ALTER COLUMN "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE "counties" ALTER COLUMN "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
