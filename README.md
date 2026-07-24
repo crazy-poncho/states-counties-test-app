@@ -51,6 +51,8 @@ See `AGENTS.md` for project-wide conventions (including UUIDv7 IDs).
 
 ### Example list item
 
+`detail` is an absolute URL for the state detail endpoint. Its origin matches how the client reached the API (e.g. `http://localhost:8080` via Nginx, `http://localhost:5173` via Vite, or `http://localhost:3000` when calling the API directly).
+
 ```json
 {
   "state": "Alabama",

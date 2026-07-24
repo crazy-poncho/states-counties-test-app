@@ -4,7 +4,7 @@ import { stateDetailUrl } from "../lib/urls.js";
 import { HttpError } from "../middleware/errorHandler.js";
 
 export async function listStates(
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> {
@@ -23,7 +23,7 @@ export async function listStates(
         state: state.name,
         population: state.population,
         counties: state._count.counties,
-        detail: stateDetailUrl(state.name),
+        detail: stateDetailUrl(state.name, req),
       })),
     );
   } catch (err) {
@@ -66,7 +66,7 @@ export async function getStateDetail(
       state: state.name,
       population: state.population,
       counties: state.counties.length,
-      detail: stateDetailUrl(state.name),
+      detail: stateDetailUrl(state.name, req),
       countyList: state.counties.map((county) => ({
         county: county.name,
         population: county.population,
